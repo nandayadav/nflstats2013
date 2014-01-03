@@ -1,4 +1,2 @@
-nflstats2013
-============
+NFL Team Stats - 2013
 
-Interactive Visualization of Team Stats for NFL 2013

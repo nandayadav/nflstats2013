@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NFL 2013 Regular Season Team Statistics - Interactive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visualize 2013 NFL regular season team statistics and rankings">
+    <meta name="author" content="Nanda Yadav">
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3-tip.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+  <div class="container" style="margin-top: 10px;">
+    <div class="row" style="padding-top: 10px;">
+      
+      <div class="col-md-2">
+        <div class="btn-group btn-group-sm category">
+          <button id="selectedCategory" class="btn btn-default active btn-success">Overall Stats</button>
+          <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" data-name="Passing Offense">Passing Stats</a></li>
+            <li><a href="#" data-name="Rushing Offense">Rushing Stats</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      
+      <div class="col-md-5" id="overallStats">
+        <div class="btn-group btn-group-sm offense">
+          <button class="btn btn-default active btn-success"  data-name="points">Points</button>
+          <button class="btn btn-default" data-name="yards">Yards</button>
+          <button class="btn btn-default" data-name="plays">Plays</button>
+          <button class="btn btn-default" data-name="yards_play">Yards/Play</button>
+          <button class="btn btn-default" data-name="touchdowns">TDs</button>
+          <button class="btn btn-default" data-name="turnovers">Turnovers</button>
+          <button class="btn btn-default" data-name="fumbles">Fumbles</button>
+        </div>
+      </div>
+      
+      <div class="col-md-5 hide" id="passingStats">
+        <div class="btn-group btn-group-sm offense">
+          <button class="btn btn-default" data-name="passing_attempts">Attempts</button>
+          <button class="btn btn-default" data-name="passing_yards">Yards</button>
+          <button class="btn btn-default" data-name="passing_yds_attempt">Yds/Attempt</button>
+          <button class="btn btn-default" data-name="passing_tds">Touchdowns</button>
+          <button class="btn btn-default" data-name="interceptions">Interceptions</button>
+        </div>
+      </div>
+      <div class="col-md-5 hide" id="rushingStats">
+        <div class="btn-group btn-group-sm offense">
+          <button class="btn btn-default" data-name="rushing_attempts">Attempts</button>
+          <button class="btn btn-default" data-name="rushing_yards">Yards</button>
+          <button class="btn btn-default" data-name="rushing_yds_attempt">Yards/Attempt</button>
+          <button class="btn btn-default" data-name="rushing_tds">Touchdowns</button>
+        </div>
+      </div>
+      
+      <div class="col-md-5" id="viewType">
+        <div class="btn-group btn-group-sm view">
+          <button class="btn btn-default active btn-success"  data-name="team">Offense - Defense</button>
+          <button class="btn btn-default" data-name="offense">Offense - League Avg</button>
+          <button class="btn btn-default" data-name="defense">Defense - League Avg</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="details" style="padding: 10px;">
+      <p></p>
+    </div>
+    <div class="row">
+      <div id="chart" class="col-md-12"></div>
+    <div>
+    <div class="row" style="padding-bottom: 20px;">
+      <h5>Author: Nanda Yadav
+        [ <a href="http://twitter.com/nandayadav"><img src="https://g.twimg.com/twitter-bird-16x16.png"></a> | 
+      <a href="http://github.com/nandayadav"><img src="logos/Github-32px.png" style="width: 18px; height: 18px;"></a> ]
+      </h5>
+      <a href="http://github.com/nandayadav/medicare-viz">Source Code</a><br/>
+      Data Source: <a href="http://www.pro-football-reference.com/years/2013/">Pro-football Reference</a>
+      <p>Built with: <a href="http://d3js.org">d3.js</a>
+      <p>*This project is for educational purposes, I do not own the NFL or its affiliated teams or logos. Teams and Logos are copyright of the NFL</p>
+    </div>
+  </div>
+  <script src="js/league_difference.js"></script>
+</body>
+</html>
