@@ -35,6 +35,7 @@ var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
 var playoffTeams = ["New England Patriots", "San Diego Chargers", "Denver Broncos", "Kansas City Chiefs", "Indianapolis Colts", "Cincinnati Bengals",
                               "Seattle Seahawks", "San Francisco 49ers", "Carolina Panthers", "Green Bay Packers", "New Orleans Saints", "Philadelphia Eagles" 
                              ];
+var topFour = ["New England Patriots", "Denver Broncos", "San Francisco 49ers", "Seattle Seahawks"];
 var bottomFive = ["Houston Texans", "Jacksonville Jaguars", "Washington Redskins", "Cleveland Browns", "Oakland Raiders"];
 var teams, team;
 var dimensionMappings = {yards: ["Yards", "DefenseYds"], plays: ["Plays", "DefensePlays"], yards_play: ["YdsPlay", "DefenseYdsPlay"], turnovers: ["TO", "DefenseTO"],
@@ -57,6 +58,7 @@ d3.csv("csv/combined_final.csv", function(error, data) {
       d.DefTouchdowns = d.DefRushingTD + d.DefPassingTD;
       d.playoff = _.contains(playoffTeams, d.Tm);
       d.bottomFive = _.contains(bottomFive, d.Tm);
+      d.topFour = _.contains(topFour, d.Tm);
     });
   });
   
@@ -76,7 +78,7 @@ d3.csv("csv/combined_final.csv", function(error, data) {
   showDetails();
     
   var legend = svg.selectAll(".legend")
-      .data([{name: "Playoff Teams", color: "#75D1BD"}, {name: "Bottom 5", color: "#C65360"}, {name: "Others", color: "Gray"}])
+      .data([{name: "Final Four", color: "#43BB3E"}, {name: "Playoff Teams", color: "#75D1BD"}, {name: "Bottom 5", color: "#C65360"}, {name: "Others", color: "Gray"}])
     .enter().append("g")
       .attr("class", "legend")
       .attr("transform", function(d) { return "translate(850)"; })
@@ -126,6 +128,8 @@ d3.csv("csv/combined_final.csv", function(error, data) {
 });
 
 function fill(d) {
+  if (d.topFour) 
+    return "#43BB3E";
   if (d.playoff)
     return "#75D1BD";
   else if (d.bottomFive)
