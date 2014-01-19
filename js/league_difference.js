@@ -32,8 +32,8 @@ var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
            + "Defense " + dimension + ": </span>" + d.dimensions[1].value + rankDisplay(d.defenseRank); 
 });
       
-var playoffTeams = ["New England Patriots", "San Diego Chargers", "Denver Broncos", "Kansas City Chiefs", "Indianapolis Colts", "Cincinnati Bengals",
-                              "Seattle Seahawks", "San Francisco 49ers", "Carolina Panthers", "Green Bay Packers", "New Orleans Saints", "Philadelphia Eagles" 
+var playoffTeams = ["San Diego Chargers", "Kansas City Chiefs", "Indianapolis Colts", "Cincinnati Bengals",
+                              "Carolina Panthers", "Green Bay Packers", "New Orleans Saints", "Philadelphia Eagles" 
                              ];
 var topFour = ["New England Patriots", "Denver Broncos", "San Francisco 49ers", "Seattle Seahawks"];
 var bottomFive = ["Houston Texans", "Jacksonville Jaguars", "Washington Redskins", "Cleveland Browns", "Oakland Raiders"];
