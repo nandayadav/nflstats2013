@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>NFL 2013 Regular Season Team Statistics - Interactive</title>
+    <title>NFL 2014 Regular Season Team Statistics - Interactive</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Visualize 2013 NFL regular season team statistics and rankings">
     <meta name="author" content="Nanda Yadav">
@@ -18,7 +18,7 @@
 </head>
 <body>
   <div class="container">
-      <h3>NFL 2013 Regular Season Team Stats - Interactive</h3>
+      <h3>NFL 2014 Regular Season Team Stats - Interactive</h3>
     <hr>
     <div class="row" style="padding-top: 0px;">
       
@@ -73,10 +73,20 @@
           <button class="btn btn-default" data-name="offense">Offense - League Avg</button>
           <button class="btn btn-default" data-name="defense">Defense - League Avg</button>
         </div>
+        
       </div>
     </div>
-    <div class="row" id="details" style="padding: 10px;">
-      <p></p>
+    <div class="row" style="padding-top: 10px;">
+      <div class="col-md-8" id="details">
+        <p></p>
+      </div>
+      <div class="col-md-4">
+        <label>Group By:</label>
+        <div class="btn-group btn-group-sm group">
+          <button class="btn btn-default active btn-success"  data-name="division">Division</button>
+          <button class="btn btn-default" data-name="rank">Rank</button>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div id="chart" class="col-md-12"></div>

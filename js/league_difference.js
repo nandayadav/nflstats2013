@@ -22,9 +22,10 @@ var svg = d3.select("#chart").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
 var dimension = "points",
-      xSort = "division",
       viewType = "team",
+      xGrouping = "division",
       viewButton = "Offense - Defense";
+      
       
 var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { 
   return d.Tm + "<br/><span class='indicator'>" + "Offense " + dimension + ": </span>" + d.dimensions[0].value 
@@ -32,11 +33,11 @@ var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
            + "Defense " + dimension + ": </span>" + d.dimensions[1].value + rankDisplay(d.defenseRank); 
 });
       
-var playoffTeams = ["San Diego Chargers", "Kansas City Chiefs", "Indianapolis Colts", "Cincinnati Bengals",
-                              "Carolina Panthers", "Green Bay Packers", "New Orleans Saints", "Philadelphia Eagles" 
+var playoffTeams = ["Baltimore Ravens", "Pittsburgh Steelers", "Denver Broncos", "Cincinnati Bengals",
+                              "Carolina Panthers", "Dallas Cowboys", "Detroit Lions", "Arizona Cardinals" 
                              ];
-var topFour = ["New England Patriots", "Denver Broncos", "San Francisco 49ers", "Seattle Seahawks"];
-var bottomFive = ["Houston Texans", "Jacksonville Jaguars", "Washington Redskins", "Cleveland Browns", "Oakland Raiders"];
+var topFour = ["New England Patriots", "Indianapolis Colts", "Green Bay Packers", "Seattle Seahawks"];
+var bottomFive = ["Tampa Bay Buccaneers", "Jacksonville Jaguars", "Washington Redskins", "Tennessee Titans", "Oakland Raiders"];
 var teams, team;
 var dimensionMappings = {yards: ["Yards", "DefenseYds"], plays: ["Plays", "DefensePlays"], yards_play: ["YdsPlay", "DefenseYdsPlay"], turnovers: ["TO", "DefenseTO"],
                                         points: ["Points", "DefensePts"], passing_yards: ["PassingYds", "DefPassingYds"], rushing_yards: ["RushingYds", "DefRushingYds"],
@@ -46,7 +47,7 @@ var dimensionMappings = {yards: ["Yards", "DefenseYds"], plays: ["Plays", "Defen
                                         rushing_yds_attempt: ["RushingYdsAtt", "DefRushingYdsAtt"], rushing_tds: ["RushingTD", "DefRushingTD"]
                                        };
 var defensiveDimensions = ["turnovers", "fumbles", "interceptions"];
-d3.csv("csv/combined_final.csv", function(error, data) {
+d3.csv("csv/nfl_2014_combined.csv", function(error, data) {
   
   var keys = d3.keys(data[0]).filter(function(key) { return key != 'Tm'; });
   data.forEach(function(d) {
@@ -208,6 +209,17 @@ function redraw() {
   assignRanks();
   
   var t1 = svg.transition().duration(1000);
+
+  if (xGrouping === 'rank') {
+    var sorted = teams;
+    var t2 = t1.transition().duration(1000);
+    sortByRank(sorted);
+
+    x.domain(sorted.map(function(d) { return d.Tm; }));
+    t2.selectAll(".team").attr("transform", function(d) { return "translate(" + x(d.Tm) + ",0)"; });
+  }
+  
+  
   t1.selectAll(".team rect").attr("height", function(d) { return Math.abs(y(d.difference) - y(0)); })
                                      .attr("y", function(d) { return y(Math.max(0, d.difference)); });
                                      
@@ -216,8 +228,29 @@ function redraw() {
   t1.select(".y.axis")
       .call(yAxis);
   t1.select("#yLabel").text(yLabel);
-  // t1.selectAll(".stdDev").attr("y1", function(d) { return y(0) + d*stdDeviations[pair[0]]; })
-  //     .attr("y2", function(d) { return y(0) + d*stdDeviations[pair[0]]; });
+  
+}
+
+function sortByRank(sorted) {
+  if ((viewType === 'defense') && !(_.contains(defensiveDimensions, dimension)))
+    sorted.sort(function(a, b) { return d3.descending(b.difference, a.difference); });
+  else if ((viewType !== 'defense') && (_.contains(defensiveDimensions, dimension)))
+    sorted.sort(function(a, b) { return d3.descending(b.difference, a.difference); });
+  else
+    sorted.sort(function(a, b) { return d3.descending(a.difference, b.difference); });
+}
+
+function redrawWithSort(grouping) {
+  xGrouping = grouping;
+  var sorted = teams;
+  var t = svg.transition().duration(1000);
+  if (xGrouping === 'rank') {
+    sortByRank(sorted); 
+  } else {
+    sorted.sort(function(a, b) { return d3.ascending(a.Position, b.Position); });
+  }
+  x.domain(sorted.map(function(d) { return d.Tm; }));
+  t.selectAll(".team").attr("transform", function(d) { return "translate(" + x(d.Tm) + ",0)"; });
 }
 
 //Converts Overall Stats -> overallStats
@@ -261,6 +294,15 @@ $(".view").on("click", "button", function(e) {
     viewType = $(this).data("name");
     viewButton = $(this).text();
     redraw();
+  }
+});
+
+$(".group").on("click", "button", function(e) {
+  $(this).siblings().removeClass("active btn-success");
+  $(this).addClass("active btn-success");
+  if (xGrouping !== $(this).data("name")) {
+    var group = $(this).data("name");
+    redrawWithSort(group);
   }
 });
 
